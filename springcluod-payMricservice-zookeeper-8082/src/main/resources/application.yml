@@ -1,0 +1,47 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: pay-zookeeper-mircserver
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/web?useUnicode=true&useSSL=true
+    username: root
+    password: root
+    druid:
+      filters: stat,wall
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+        url-pattern: "/druid/*"
+        enabled: true
+      filter:
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: true
+        stat:
+          slow-sql-millis: 10000
+          log-slow-sql: true
+          enabled: true
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        enabled: true
+        profile-enable: "true"
+        url-pattern: "/*"
+      aop-patterns: com.springcluod.*
+  cloud:
+    zookeeper:
+      connect-string: 192.168.234.135:2181
+
+
+logging:
+  file:
+    name: F:\\JavaCode\\SpringCloud\\springcluod-payMricservice-zookeeper-8082\\log\\pay.log
+  pattern:
+    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+  level:
+    com.springcluod.zookeeper: info
+    org.springframework.jdbc.core.JdbcTemplate: info

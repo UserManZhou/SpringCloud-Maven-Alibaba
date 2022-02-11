@@ -1,0 +1,19 @@
+server:
+  port: 7000
+
+eureka:
+  server:
+    # 关闭自我保护机制，保证不可用的服务被及时剔除
+    enable-self-preservation: false
+    # 如果2秒内没有收到某个微服务的心跳，那就剔除该微服务，单位为毫秒
+    eviction-interval-timer-in-ms: 2000
+  instance:
+    hostname: eureka7000.com
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+#      集群模式
+#      defaultZone: http://eureka7001.com:7001/eureka/
+#       单机模式
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

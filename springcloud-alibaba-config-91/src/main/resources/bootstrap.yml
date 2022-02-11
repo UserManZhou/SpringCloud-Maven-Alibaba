@@ -1,0 +1,19 @@
+server:
+  port: 91
+
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        group: INFO_GROUP
+        namespace: 9e7a2cbe-7f39-4f67-a51f-e1462fb29ec3
+#        namespace: 9f255654-541f-4ff1-a14e-9cdab139c3bf
+# nacos-config-client-dev.yaml
+# nacos-config-client-dev.yaml
+# config-client-90-dev.yaml

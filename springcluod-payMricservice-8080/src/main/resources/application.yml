@@ -1,0 +1,78 @@
+server:
+  port: 8080
+
+
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1
+  application:
+    name: pay-8080-mricserivce
+  datasource:
+    url: jdbc:mysql://localhost:3306/web
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    druid:
+      filters: stat,wall
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+        url-pattern: "/druid/*"
+        enabled: true
+      filter:
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: true
+        stat:
+          slow-sql-millis: 10000
+          log-slow-sql: true
+          enabled: true
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        enabled: true
+        profile-enable: "true"
+        url-pattern: "/*"
+      aop-patterns: com.springcluod.*
+
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*
+
+management:
+  endpoints:
+    enabled-by-default: true
+
+logging:
+  file:
+    name: F:\\JavaCode\\SpringCloud\\springcluod-payMricservice-8080\\log\\pay.log
+  pattern:
+    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+  level:
+    com.springcluod.pay: info
+    org.springframework.jdbc.core.JdbcTemplate: info
+    con.springcluod.mapper: info
+eureka:
+  instance:
+    # 设置当前实例别名
+    instance-id: "pay-8080"
+    # 开启IP连接
+    prefer-ip-address: true
+    # 表示eureka服务器从收到消息后等待的时间(单位为秒)
+    lease-expiration-duration-in-seconds: 2
+    # 表示eureka客户端需要发送心跳的频率(以秒为单位)
+    lease-renewal-interval-in-seconds: 1
+  client:
+    service-url:
+#      集群模式
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7000.com:7000/eureka/
+#   单机模式
+      defaultZone: http://eureka7001.com:7001/eureka/
+    register-with-eureka: true
+    fetch-registry: true

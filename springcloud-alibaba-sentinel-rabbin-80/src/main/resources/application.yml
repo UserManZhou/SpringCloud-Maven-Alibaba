@@ -1,0 +1,32 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: sentinel-nacos-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
+      datasource:
+        ds1:
+          nacos:
+            serverAddr: localhost:8848
+            dataId: ${spring.application.name}
+            groupId: DEFAULT_GROUP
+            dataType: json
+            ruleType: flow
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+feign:
+  sentinel:
+    enabled: true

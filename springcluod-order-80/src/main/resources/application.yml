@@ -1,0 +1,67 @@
+server:
+  port: 80
+
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1
+  application:
+    name: oder-80-mircservice
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/web?useUnicode=true&useSSL=true
+    username: root
+    password: root
+    enable: false
+    druid:
+      filters: stat,wall
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+        url-pattern: "/druid/*"
+        enabled: true
+      filter:
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: true
+        stat:
+          slow-sql-millis: 10000
+          log-slow-sql: true
+          enabled: true
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        enabled: true
+        profile-enable: "true"
+        url-pattern: "/*"
+      aop-patterns: com.springcluod.*
+
+
+
+
+
+management:
+  endpoints:
+    enabled-by-default: true
+
+logging:
+  file:
+    name: F:\\JavaCode\\SpringCloud\\springcluod-order-80\\log\\pay.log
+  pattern:
+    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+  level:
+    com.springcluod.order.**: info
+
+eureka:
+  instance:
+    instance-id: order
+    prefer-ip-address: true
+  client:
+    service-url:
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7000.com:7000/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/
+    register-with-eureka: true
+    fetch-registry: true

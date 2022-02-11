@@ -1,0 +1,42 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: gateway-9527
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+#        - id: pay-8080-mricserivce
+        - id: PAY-8080-MRICSERIVCE
+          uri: lb://PAY-8080-MRICSERIVCE
+          predicates:
+            - Path=/pay/lb/**
+            - After=2022-02-04T12:44:12.364+08:00[Asia/Shanghai]
+
+        - id: PAY-8080-MRICSERIVCE2
+          uri: lb://PAY-8080-MRICSERIVCE
+          predicates:
+            - Path=/pay/lb/**
+eureka:
+  instance:
+    # 设置当前实例别名
+    instance-id: "getaway-9527"
+    # 开启IP连接
+    prefer-ip-address: true
+    # 表示eureka服务器从收到消息后等待的时间(单位为秒)
+    lease-expiration-duration-in-seconds: 2
+    # 表示eureka客户端需要发送心跳的频率(以秒为单位)
+    lease-renewal-interval-in-seconds: 1
+  client:
+    service-url:
+      #      集群模式
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7000.com:7000/eureka/
+    #   单机模式
+          defaultZone: http://eureka7001.com:7001/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+

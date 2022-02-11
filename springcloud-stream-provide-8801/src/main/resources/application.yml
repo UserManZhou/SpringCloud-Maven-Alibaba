@@ -1,0 +1,46 @@
+server:
+  port: 8801
+
+spring:
+  application:
+    name: cloud-stream
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          enviroment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      bindings:
+        output:
+          destination: partitioned.destination
+          contentType: application/json
+          binder: defaultRabbit
+
+
+
+eureka:
+  instance:
+    # 设置当前实例别名
+    instance-id: "stream-8801-output"
+    # 开启IP连接
+    prefer-ip-address: true
+    # 表示eureka服务器从收到消息后等待的时间(单位为秒)
+    lease-expiration-duration-in-seconds: 2
+    # 表示eureka客户端需要发送心跳的频率(以秒为单位)
+    lease-renewal-interval-in-seconds: 1
+  client:
+    service-url:
+      #      集群模式
+      #      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7000.com:7000/eureka/
+      #   单机模式
+      defaultZone: http://eureka7001.com:7001/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+
